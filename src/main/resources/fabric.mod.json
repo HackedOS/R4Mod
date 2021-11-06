@@ -1,0 +1,30 @@
+{
+  "schemaVersion": 1,
+  "id": "R4Mod",
+  "version": "${version}",
+  "name": "R4Mod",
+  "description": "A mod to link discord and MC for Tech Players",
+  "authors": [
+    "HackOS"
+  ],
+  "contact": {},
+  "license": "MIT",
+  "icon": "assets/R4Mod/icon.png",
+  "environment": "server",
+  "entrypoints": {
+    "client": [
+      "xyz.hackos.r4tech.r4mod.client.R4ModClient"
+    ],
+    "main": [
+      "xyz.hackos.r4tech.r4mod.R4Mod"
+    ]
+  },
+  "mixins": [
+    "R4Mod.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.11.7",
+    "fabric": "*",
+    "minecraft": "1.17.1"
+  }
+}
