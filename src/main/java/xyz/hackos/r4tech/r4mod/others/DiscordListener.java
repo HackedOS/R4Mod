@@ -15,7 +15,22 @@ import static xyz.hackos.r4tech.r4mod.R4Mod.config;
 public class DiscordListener extends ListenerAdapter {
     static String content;
     public DiscordListener(){
+    }
+    //Prompts
+    public static void serverStartingMethod() {
+        R4Mod.sendMessage(Text.of(R4Mod.config.getServerStartingPrompt()), true, false, false);
+    }
 
+    public static void serverStartedMethod() {
+        R4Mod.sendMessage(Text.of(R4Mod.config.getServerStartedPrompt()), true, false,  false);
+    }
+
+    public static void serverStoppingMethod() {
+        R4Mod.sendMessage(Text.of(R4Mod.config.getServerStoppingPrompt()), true, false, false);
+    }
+
+    public static void serverStoppedMethod() {
+        R4Mod.sendMessage(Text.of(R4Mod.config.getServerStoppedPrompt()), true, false, false);
     }
 
     @Override

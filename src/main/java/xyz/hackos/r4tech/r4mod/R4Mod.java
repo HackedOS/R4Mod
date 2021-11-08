@@ -8,11 +8,16 @@ import net.dv8tion.jda.api.JDABuilder;
 import net.fabricmc.api.DedicatedServerModInitializer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.network.MessageType;
 import net.minecraft.server.dedicated.MinecraftDedicatedServer;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
+import xyz.hackos.r4tech.r4mod.events.GetServerStartedEvent;
+import xyz.hackos.r4tech.r4mod.events.GetServerStartingEvent;
+import xyz.hackos.r4tech.r4mod.events.GetServerStoppedEvent;
+import xyz.hackos.r4tech.r4mod.events.GetServerStoppingEvent;
 import xyz.hackos.r4tech.r4mod.others.Config;
 import xyz.hackos.r4tech.r4mod.others.DiscordListener;
 
@@ -138,7 +143,12 @@ public class R4Mod implements DedicatedServerModInitializer {
             e.printStackTrace();
         }
         R4Mod.senderUUID = senderUUID;
-        //server.getPlayerManager().broadcastChatMessage(Text.of("<HackOS> test"),MessageType.CHAT,UUID.randomUUID());
+
+        //Register prompt events
+        ServerLifecycleEvents.SERVER_STARTING.register(new GetServerStartingEvent());
+        ServerLifecycleEvents.SERVER_STARTED.register(new GetServerStartedEvent());
+        ServerLifecycleEvents.SERVER_STOPPING.register(new GetServerStoppingEvent());
+        ServerLifecycleEvents.SERVER_STOPPED.register(new GetServerStoppedEvent());
 
     }
 }

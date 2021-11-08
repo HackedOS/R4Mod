@@ -9,7 +9,7 @@
   ],
   "contact": {},
   "license": "MIT",
-  "icon": "assets/R4Mod/icon.png",
+  "icon": "assets/icon.png",
   "environment": "server",
   "entrypoints": {
     "server": [
