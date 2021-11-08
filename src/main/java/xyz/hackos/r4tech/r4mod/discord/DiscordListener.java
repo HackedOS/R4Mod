@@ -8,12 +8,7 @@ import net.minecraft.network.MessageType;
 import net.minecraft.text.Text;
 import org.jetbrains.annotations.NotNull;
 import xyz.hackos.r4tech.r4mod.R4Mod;
-
 import javax.annotation.Nonnull;
-
-import java.util.Objects;
-
-import static xyz.hackos.r4tech.r4mod.R4Mod.api;
 import static xyz.hackos.r4tech.r4mod.R4Mod.config;
 
 public class DiscordListener extends ListenerAdapter {
@@ -22,19 +17,19 @@ public class DiscordListener extends ListenerAdapter {
     }
     //Prompts
     public static void serverStartingMethod() {
-        DiscordChatBridge.sendMessage(Text.of(R4Mod.config.getServerStartingPrompt()));
+        DiscordChatBridge.sendMessage(config.getServerStartingPrompt());
     }
 
     public static void serverStartedMethod() {
-        DiscordChatBridge.sendMessage(Text.of(R4Mod.config.getServerStartedPrompt()));
+        DiscordChatBridge.sendMessage(config.getServerStartedPrompt());
     }
 
     public static void serverStoppingMethod() {
-        DiscordChatBridge.sendMessage(Text.of(R4Mod.config.getServerStoppingPrompt()));
+        DiscordChatBridge.sendMessage(config.getServerStoppingPrompt());
     }
 
     public static void serverStoppedMethod() {
-        DiscordChatBridge.sendMessage(Text.of(config.getServerStoppedPrompt()));
+        DiscordChatBridge.sendMessage(config.getServerStoppedPrompt());
     }
 
     @Override

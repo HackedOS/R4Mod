@@ -12,9 +12,9 @@ import static xyz.hackos.r4tech.r4mod.R4Mod.config;
 
 public class DiscordChatBridge {
     //For sending messages to Discord and Minecraft
-    public static void sendMessage(Text message) {
+    public static void sendMessage(String message) {
         if (R4Mod.jdaReady) {
-            Objects.requireNonNull(api.getTextChannelById(config.getChatChannelID())).sendMessage(message.getString()).queue();
+            Objects.requireNonNull(api.getTextChannelById(config.getChatChannelID())).sendMessage(message).queue();
 
 //            if (sendToDiscordConsole) {
 //                Objects.requireNonNull(api.getTextChannelById(config.getConsoleChannelID())).sendMessage(message.getString()).queue();

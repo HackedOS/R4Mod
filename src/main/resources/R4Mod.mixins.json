@@ -5,7 +5,9 @@
   "compatibilityLevel": "JAVA_16",
   "mixins": [
     "GetServerMixin",
-    "ChatMessageMixin"
+    "ChatEventMixin",
+    "PlayerEventsMixins$PlayerJoined",
+    "PlayerEventsMixins$PlayerLeft"
   ],
   "client": [
   ],

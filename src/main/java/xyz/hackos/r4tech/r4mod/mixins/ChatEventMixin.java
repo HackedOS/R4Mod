@@ -12,11 +12,11 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import xyz.hackos.r4tech.r4mod.discord.DiscordChatBridge;
 
 @Mixin(ServerPlayNetworkHandler.class)
-public class ChatMessageMixin {
+public class ChatEventMixin {
     @Shadow public ServerPlayerEntity player;
 
     @Inject(method = "onGameMessage", at = @At("RETURN"))
     private void onChatMessage(ChatMessageC2SPacket packet, CallbackInfo ci) {
-        DiscordChatBridge.sendMessage(Text.of("`<" + player.getName().getString() + ">` " + packet.getChatMessage()));
+        DiscordChatBridge.sendMessage("`<" + player.getName().getString() + ">` " + packet.getChatMessage());
     }
 }
