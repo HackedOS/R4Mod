@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "id": "R4Mod",
+  "id": "r4mod",
   "version": "${version}",
   "name": "R4Mod",
   "description": "A mod to link discord and MC for Tech Players",
@@ -12,10 +12,7 @@
   "icon": "assets/R4Mod/icon.png",
   "environment": "server",
   "entrypoints": {
-    "client": [
-      "xyz.hackos.r4tech.r4mod.client.R4ModClient"
-    ],
-    "main": [
+    "server": [
       "xyz.hackos.r4tech.r4mod.R4Mod"
     ]
   },
