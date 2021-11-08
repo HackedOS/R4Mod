@@ -5,8 +5,7 @@
   "compatibilityLevel": "JAVA_16",
   "mixins": [
     "GetServerMixin",
-    "SendMessageInDiscordMixin",
-    "PlayerManagerMixin"
+    "ChatMessageMixin"
   ],
   "client": [
   ],

@@ -9,6 +9,7 @@ import net.fabricmc.api.DedicatedServerModInitializer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.network.MessageType;
 import net.minecraft.server.dedicated.MinecraftDedicatedServer;
@@ -19,7 +20,7 @@ import xyz.hackos.r4tech.r4mod.events.GetServerStartingEvent;
 import xyz.hackos.r4tech.r4mod.events.GetServerStoppedEvent;
 import xyz.hackos.r4tech.r4mod.events.GetServerStoppingEvent;
 import xyz.hackos.r4tech.r4mod.others.Config;
-import xyz.hackos.r4tech.r4mod.others.DiscordListener;
+import xyz.hackos.r4tech.r4mod.discord.DiscordListener;
 
 import javax.security.auth.login.LoginException;
 import java.io.IOException;
@@ -34,10 +35,9 @@ import java.util.UUID;
 public class R4Mod implements DedicatedServerModInitializer {
 
     public static Config config;
-    private static List<ServerPlayerEntity> players;
     public static boolean jdaReady = false;
     private static MinecraftDedicatedServer server;
-    static JDA api;
+    public static JDA api;
     static Path configPath = Paths.get(FabricLoader.getInstance().getConfigDir() + "/r4mod.json");
     Gson gson = new GsonBuilder().setPrettyPrinting().create();
     public static UUID senderUUID = UUID.randomUUID();
@@ -47,14 +47,6 @@ public class R4Mod implements DedicatedServerModInitializer {
         return server;
     }
 
-    //Sets the server variable to use for commands
-    public static void setPlayerVariable(List<ServerPlayerEntity> players) {
-        R4Mod.players = players;
-    }
-
-    public static JDA getApiVariable() {
-        return api;
-    }
 
     //Sets the server variable to use for commands
     public static void setServerVariable(MinecraftDedicatedServer server) {
@@ -83,29 +75,6 @@ public class R4Mod implements DedicatedServerModInitializer {
                     "Server stopping",
                     "Server stopped",
                     false);
-        }
-    }
-
-    //For sending messages to Discord and Minecraft
-    public static void sendMessage(Text message, boolean sendToDiscordChat, boolean sendToDiscordConsole, boolean sendToMinecraft) {
-        if (jdaReady) {
-            if (sendToMinecraft) {
-                server.sendSystemMessage(message, null);
-                try {
-                    for (ServerPlayerEntity serverPlayerEntity : players) {
-                        serverPlayerEntity.sendMessage(message, MessageType.CHAT, senderUUID);
-                    }
-                } catch (NullPointerException e){
-                }
-                }
-
-            if (sendToDiscordChat) {
-                Objects.requireNonNull(api.getTextChannelById(config.getChatChannelID())).sendMessage(message.getString()).queue();
-            }
-
-            if (sendToDiscordConsole) {
-                Objects.requireNonNull(api.getTextChannelById(config.getConsoleChannelID())).sendMessage(message.getString()).queue();
-            }
         }
     }
     @Override
@@ -142,13 +111,11 @@ public class R4Mod implements DedicatedServerModInitializer {
         } catch (LoginException e) {
             e.printStackTrace();
         }
-        R4Mod.senderUUID = senderUUID;
 
         //Register prompt events
         ServerLifecycleEvents.SERVER_STARTING.register(new GetServerStartingEvent());
         ServerLifecycleEvents.SERVER_STARTED.register(new GetServerStartedEvent());
         ServerLifecycleEvents.SERVER_STOPPING.register(new GetServerStoppingEvent());
         ServerLifecycleEvents.SERVER_STOPPED.register(new GetServerStoppedEvent());
-
     }
 }

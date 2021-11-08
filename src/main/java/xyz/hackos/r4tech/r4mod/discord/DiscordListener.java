@@ -1,15 +1,19 @@
-package xyz.hackos.r4tech.r4mod.others;
+package xyz.hackos.r4tech.r4mod.discord;
 
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.events.ReadyEvent;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
+import net.minecraft.network.MessageType;
 import net.minecraft.text.Text;
 import org.jetbrains.annotations.NotNull;
 import xyz.hackos.r4tech.r4mod.R4Mod;
 
 import javax.annotation.Nonnull;
 
+import java.util.Objects;
+
+import static xyz.hackos.r4tech.r4mod.R4Mod.api;
 import static xyz.hackos.r4tech.r4mod.R4Mod.config;
 
 public class DiscordListener extends ListenerAdapter {
@@ -18,19 +22,19 @@ public class DiscordListener extends ListenerAdapter {
     }
     //Prompts
     public static void serverStartingMethod() {
-        R4Mod.sendMessage(Text.of(R4Mod.config.getServerStartingPrompt()), true, false, false);
+        DiscordChatBridge.sendMessage(Text.of(R4Mod.config.getServerStartingPrompt()));
     }
 
     public static void serverStartedMethod() {
-        R4Mod.sendMessage(Text.of(R4Mod.config.getServerStartedPrompt()), true, false,  false);
+        DiscordChatBridge.sendMessage(Text.of(R4Mod.config.getServerStartedPrompt()));
     }
 
     public static void serverStoppingMethod() {
-        R4Mod.sendMessage(Text.of(R4Mod.config.getServerStoppingPrompt()), true, false, false);
+        DiscordChatBridge.sendMessage(Text.of(R4Mod.config.getServerStoppingPrompt()));
     }
 
     public static void serverStoppedMethod() {
-        R4Mod.sendMessage(Text.of(R4Mod.config.getServerStoppedPrompt()), true, false, false);
+        DiscordChatBridge.sendMessage(Text.of(config.getServerStoppedPrompt()));
     }
 
     @Override
@@ -47,7 +51,7 @@ public class DiscordListener extends ListenerAdapter {
         if (event.getChannel().getId().equals(config.getChatChannelID())){
         Message message = event.getMessage();
         content = message.getContentRaw();
-        R4Mod.sendMessage(Text.of("[" + event.getMember().getUser().getName() + "] " + content), false, false, true);
+        R4Mod.getServerVariable().getPlayerManager().broadcastChatMessage(Text.of("[" + event.getMember().getUser().getName() + "] " + content), MessageType.CHAT, R4Mod.senderUUID);
         }
     }
 }
