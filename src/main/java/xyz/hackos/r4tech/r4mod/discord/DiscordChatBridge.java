@@ -5,6 +5,7 @@ import xyz.hackos.r4tech.r4mod.R4Mod;
 import java.util.Objects;
 import static xyz.hackos.r4tech.r4mod.R4Mod.api;
 import static xyz.hackos.r4tech.r4mod.R4Mod.config;
+import static xyz.hackos.r4tech.r4mod.discord.commands.BotsDiscordCommand.BotsCommand;
 import static xyz.hackos.r4tech.r4mod.discord.commands.OnlineDiscordCommand.OnlineCommand;
 
 
@@ -24,6 +25,7 @@ public class DiscordChatBridge {
         String command = commandW.split("!")[1];
         System.out.println(command);
         if (command.equals("online")) OnlineCommand(event);
+        else if (command.equals("bots")) BotsCommand(event);
 
     }
 }
