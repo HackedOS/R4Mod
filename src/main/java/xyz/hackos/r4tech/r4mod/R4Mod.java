@@ -36,17 +36,11 @@ public class R4Mod implements DedicatedServerModInitializer {
 
     public static Config config;
     public static boolean jdaReady = false;
-    private static MinecraftDedicatedServer server;
+    public static MinecraftDedicatedServer server;
     public static JDA api;
     static Path configPath = Paths.get(FabricLoader.getInstance().getConfigDir() + "/r4mod.json");
     Gson gson = new GsonBuilder().setPrettyPrinting().create();
     public static UUID senderUUID = UUID.randomUUID();
-
-    //Return the server variable
-    public static MinecraftDedicatedServer getServerVariable() {
-        return server;
-    }
-
 
     //Sets the server variable to use for commands
     public static void setServerVariable(MinecraftDedicatedServer server) {
@@ -117,5 +111,18 @@ public class R4Mod implements DedicatedServerModInitializer {
         ServerLifecycleEvents.SERVER_STARTED.register(new GetServerStartedEvent());
         ServerLifecycleEvents.SERVER_STOPPING.register(new GetServerStoppingEvent());
         ServerLifecycleEvents.SERVER_STOPPED.register(new GetServerStoppedEvent());
+
+//        ServerTickEvents.START_SERVER_TICK.register(server1 -> {
+//            try {
+//                List<ServerPlayerEntity> players = server1.getPlayerManager().getPlayerList();
+//                for (ServerPlayerEntity player : players) {
+//                    System.out.println(player.getName().getString() + " -> " + player.getClass());
+//                    if(player.getClass() != ServerPlayerEntity.class){
+//                        System.out.println(player.getName().getString() + " -> Carpet Player");
+//                    }
+//                }
+//            } catch (NullPointerException e){ }
+//
+//        });
     }
 }

@@ -43,10 +43,21 @@ public class DiscordListener extends ListenerAdapter {
 
         //Makes sure the Author is not a bot
         if (event.getAuthor().isBot()) return;
-        if (event.getChannel().getId().equals(config.getChatChannelID())){
+
+        if (event.getMessage().getContentDisplay().equals("")) return;
+
+        if (event.getMessage().getContentRaw().equals("")) return;
+
+        if (!event.getChannel().getId().equals(config.getChatChannelID())) return;
+
         Message message = event.getMessage();
         content = message.getContentRaw();
-        R4Mod.getServerVariable().getPlayerManager().broadcastChatMessage(Text.of("[" + event.getMember().getUser().getName() + "] " + content), MessageType.CHAT, R4Mod.senderUUID);
+
+        if(content.startsWith("!")){
+            DiscordChatBridge.discordCommand(content,event);
+            return;
         }
+
+        R4Mod.server.getPlayerManager().broadcastChatMessage(Text.of("[" + event.getMember().getUser().getName() + "] " + content), MessageType.CHAT, R4Mod.senderUUID);
     }
 }
