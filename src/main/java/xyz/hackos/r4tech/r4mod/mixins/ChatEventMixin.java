@@ -17,6 +17,6 @@ public class ChatEventMixin {
 
     @Inject(method = "onGameMessage", at = @At("RETURN"))
     private void onChatMessage(ChatMessageC2SPacket packet, CallbackInfo ci) {
-        DiscordChatBridge.sendMessage("`<" + player.getName().getString() + ">` " + packet.getChatMessage());
+        if (!packet.getChatMessage().startsWith("/")) DiscordChatBridge.sendMessage("`<" + player.getName().getString() + ">` " + packet.getChatMessage());
     }
 }
