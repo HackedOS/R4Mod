@@ -4,8 +4,8 @@
   "package": "xyz.hackos.r4tech.r4mod.mixins",
   "compatibilityLevel": "JAVA_16",
   "mixins": [
-    "GetServerMixin",
     "ChatEventMixin",
+    "GetServerMixin",
     "PlayerEventsMixins$PlayerJoined",
     "PlayerEventsMixins$PlayerLeft"
   ],

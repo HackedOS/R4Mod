@@ -3,117 +3,54 @@ package xyz.hackos.r4tech.r4mod.others;
 public class Config {
     private String botToken;
     private String commandsAccessRoleID;
-    private boolean chatEnabled;
-    private boolean commandsInChatChannel;
     private String chatChannelID;
-    private boolean consoleEnabled;
     private String consoleChannelID;
-    private boolean promptsEnabled;
     private String serverStartingPrompt;
     private String serverStartedPrompt;
     private String serverStoppingPrompt;
     private String serverStoppedPrompt;
-    private boolean showDebugLogsInConsole;
 
-    public Config(String botToken, String chatChannelID, String consoleChannelID, String commandsAccessRoleID, boolean commandsInChatChannel, boolean consoleEnabled, String serverStartingPrompt, String serverStartedPrompt, String serverStoppingPrompt, String serverStoppedPrompt, boolean showDebugLogsInConsole) {
+    public Config(String botToken, String chatChannelID, String consoleChannelID, String commandsAccessRoleID, String serverStartingPrompt, String serverStartedPrompt, String serverStoppingPrompt, String serverStoppedPrompt) {
         this.botToken = botToken;
         this.commandsAccessRoleID = commandsAccessRoleID;
-        this.commandsInChatChannel = commandsInChatChannel;
         this.chatChannelID = chatChannelID;
-        this.consoleEnabled = consoleEnabled;
         this.consoleChannelID = consoleChannelID;
         this.serverStartingPrompt = serverStartingPrompt;
         this.serverStartedPrompt = serverStartedPrompt;
         this.serverStoppingPrompt = serverStoppingPrompt;
         this.serverStoppedPrompt = serverStoppedPrompt;
-        this.showDebugLogsInConsole = showDebugLogsInConsole;
     }
 
     public String getBotToken() {
         return botToken;
     }
 
-    public void setBotToken(String botToken) {
-        this.botToken = botToken;
-    }
-
     public String getChatChannelID() {
         return chatChannelID;
-    }
-
-    public void setChatChannelID(String chatChannelID) {
-        this.chatChannelID = chatChannelID;
     }
 
     public String getConsoleChannelID() {
         return consoleChannelID;
     }
 
-    public void setConsoleChannelID(String consoleChannelID) {
-        this.consoleChannelID = consoleChannelID;
-    }
-
     public String getCommandsAccessRoleID() {
         return commandsAccessRoleID;
-    }
-
-    public void setCommandsAccessRoleID(String commandsAccessRoleID) {
-        this.commandsAccessRoleID = commandsAccessRoleID;
-    }
-
-    public boolean getCommandsInChatChannel() {
-        return commandsInChatChannel;
-    }
-
-    public void setCommandsInChatChannel(boolean commandsInChatChannel) {
-        this.commandsInChatChannel = commandsInChatChannel;
-    }
-
-    public boolean getConsoleEnables() {
-        return consoleEnabled;
-    }
-
-    public void setConsoleEnabled(boolean consoleEnabled) {
-        this.consoleEnabled = consoleEnabled;
     }
 
     public String getServerStartingPrompt() {
         return serverStartingPrompt;
     }
 
-    public void setServerStartingPrompt(String serverStartingPrompt) {
-        this.serverStartingPrompt = serverStartingPrompt;
-    }
-
     public String getServerStartedPrompt() {
         return serverStartedPrompt;
-    }
-
-    public void setServerStartedPrompt(String serverStartedPrompt) {
-        this.serverStartedPrompt = serverStartedPrompt;
     }
 
     public String getServerStoppingPrompt() {
         return serverStoppingPrompt;
     }
 
-    public void setServerStoppingPrompt(String serverStoppingPrompt) {
-        this.serverStoppingPrompt = serverStoppingPrompt;
-    }
-
     public String getServerStoppedPrompt() {
         return serverStoppedPrompt;
     }
 
-    public void setServerStoppedPrompt(String serverStoppedPrompt) {
-        this.serverStoppedPrompt = serverStoppedPrompt;
-    }
-
-    public boolean getShowDebugLogsInConsole() {
-        return showDebugLogsInConsole;
-    }
-
-    public void setShowDebugLogsInConsole(boolean showDebugLogsInConsole) {
-        this.showDebugLogsInConsole = showDebugLogsInConsole;
-    }
 }

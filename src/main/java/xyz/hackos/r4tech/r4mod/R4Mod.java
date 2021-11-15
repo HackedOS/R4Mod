@@ -9,16 +9,11 @@ import net.fabricmc.api.DedicatedServerModInitializer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
-import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.fabricmc.loader.api.FabricLoader;
-import net.minecraft.network.MessageType;
 import net.minecraft.server.dedicated.MinecraftDedicatedServer;
-import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.text.Text;
-import xyz.hackos.r4tech.r4mod.events.GetServerStartedEvent;
-import xyz.hackos.r4tech.r4mod.events.GetServerStartingEvent;
-import xyz.hackos.r4tech.r4mod.events.GetServerStoppedEvent;
-import xyz.hackos.r4tech.r4mod.events.GetServerStoppingEvent;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.core.LoggerContext;
+import xyz.hackos.r4tech.r4mod.events.*;
 import xyz.hackos.r4tech.r4mod.others.Config;
 import xyz.hackos.r4tech.r4mod.discord.DiscordListener;
 
@@ -27,8 +22,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.List;
-import java.util.Objects;
 import java.util.UUID;
 
 @Environment(EnvType.SERVER)
@@ -62,13 +55,10 @@ public class R4Mod implements DedicatedServerModInitializer {
                     "123456789012345678",
                     "123456789012345678",
                     "123456789012345678",
-                    false,
-                    true,
                     "Server starting",
                     "Server started",
                     "Server stopping",
-                    "Server stopped",
-                    false);
+                    "Server stopped");
         }
     }
     @Override
@@ -85,13 +75,10 @@ public class R4Mod implements DedicatedServerModInitializer {
                                     "chatChannelID": "123456789012345678",
                                     "consoleChannelID": "123456789012345678",
                                     "commandsAccessRoleID": "123456789012345678",
-                                    "commandsInChatChannel": "false",
-                                    "consoleEnabled": "true",
                                     "serverStartingPrompt": "Server starting",
                                     "serverStartedPrompt": "Server started",
                                     "serverStoppingPrompt": "Server stopping",
                                     "serverStoppedPrompt": "Server stopped",
-                                    "showDebugLogsInConsole": "false"
                                 }
                                         """;
                 Files.writeString(configPath, contents);
@@ -105,6 +92,12 @@ public class R4Mod implements DedicatedServerModInitializer {
         } catch (LoginException e) {
             e.printStackTrace();
         }
+
+        LoggerContext ctx = (LoggerContext) LogManager.getContext(false);
+        ConsoleAppender consoleAppender = new ConsoleAppender();
+        consoleAppender.start();
+        ctx.getRootLogger().addAppender(consoleAppender);
+        ctx.updateLoggers();
 
         //Register prompt events
         ServerLifecycleEvents.SERVER_STARTING.register(new GetServerStartingEvent());

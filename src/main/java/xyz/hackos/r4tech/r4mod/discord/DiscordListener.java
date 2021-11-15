@@ -48,7 +48,7 @@ public class DiscordListener extends ListenerAdapter {
 
         if (event.getMessage().getContentRaw().equals("")) return;
 
-        if (!event.getChannel().getId().equals(config.getChatChannelID())) return;
+        if (!event.getChannel().getId().equals(config.getChatChannelID()) && !event.getChannel().getId().equals(config.getConsoleChannelID())) return;
 
         Message message = event.getMessage();
         content = message.getContentRaw();
@@ -57,7 +57,11 @@ public class DiscordListener extends ListenerAdapter {
             DiscordChatBridge.discordCommand(content,event);
             return;
         }
+        if(content.startsWith("/")){
+            DiscordChatBridge.consoleCommand(content,event);
+            return;
+        }
 
-        R4Mod.server.getPlayerManager().broadcastChatMessage(Text.of("[" + event.getMember().getUser().getName() + "] " + content), MessageType.CHAT, R4Mod.senderUUID);
+        if (event.getChannel().getId().equals(config.getChatChannelID())) R4Mod.server.getPlayerManager().broadcastChatMessage(Text.of("[" + event.getMember().getUser().getName() + "] " + content), MessageType.CHAT, R4Mod.senderUUID);
     }
 }
