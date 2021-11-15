@@ -18,8 +18,8 @@ public class BotsDiscordCommand {
                 n = n + 1;
             }
         }
-        EmbedBuilder emb = new EmbedBuilder();
         try {
+            EmbedBuilder emb = new EmbedBuilder();
             emb.setColor(n != 0 ? Color.GREEN : Color.RED);
             emb.setTitle("Online Bots");
             if (n > 1) {
@@ -27,10 +27,9 @@ public class BotsDiscordCommand {
             } else {
                 emb.setDescription(n == 0 ? "**No bots online :(**" : "**" + n + " bot connected** \n\n" + msg);
             }
+            event.getChannel().sendMessageEmbeds(Objects.requireNonNull(emb).build()).queue();
         } catch (Exception ex) {
             ex.printStackTrace();
         }
-
-        event.getChannel().sendMessageEmbeds(Objects.requireNonNull(emb).build()).queue();
     }
 }

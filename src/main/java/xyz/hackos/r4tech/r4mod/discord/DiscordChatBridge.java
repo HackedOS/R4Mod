@@ -7,6 +7,7 @@ import java.util.Objects;
 import static xyz.hackos.r4tech.r4mod.R4Mod.api;
 import static xyz.hackos.r4tech.r4mod.R4Mod.config;
 import static xyz.hackos.r4tech.r4mod.discord.commands.BotsDiscordCommand.BotsCommand;
+import static xyz.hackos.r4tech.r4mod.discord.commands.TpsDiscordCommand.tpsCommand;
 import static xyz.hackos.r4tech.r4mod.discord.commands.OnlineDiscordCommand.OnlineCommand;
 
 
@@ -29,8 +30,11 @@ public class DiscordChatBridge {
             return;
         }
         String command = commandW.split("!")[1];
-        if (command.equals("online")) OnlineCommand(event);
-        else if (command.equals("bots")) BotsCommand(event);
+        switch (command) {
+            case "online" -> OnlineCommand(event);
+            case "bots" -> BotsCommand(event);
+            case "tps" -> tpsCommand(event);
+        }
 
     }
 

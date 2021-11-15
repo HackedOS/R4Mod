@@ -19,8 +19,8 @@ public class OnlineDiscordCommand {
             msg.append(player.getName().getString().replace("_", "\\_")).append("\n");
             n = n + 1;}
         }
-        EmbedBuilder emb = new EmbedBuilder();
         try {
+            EmbedBuilder emb = new EmbedBuilder();
             emb.setColor(n != 0 ? Color.GREEN : Color.RED);
             emb.setTitle("Online Players");
             if (n > 1) {
@@ -28,11 +28,9 @@ public class OnlineDiscordCommand {
             } else {
                 emb.setDescription(n == 0 ? "**No players online :(**" : "**" + n + " player connected** \n\n" + msg);
             }
+            event.getChannel().sendMessageEmbeds(Objects.requireNonNull(emb).build()).queue();
         } catch (Exception ex) {
             ex.printStackTrace();
         }
-
-        event.getChannel().sendMessageEmbeds(Objects.requireNonNull(emb).build()).queue();
-
     }
 }
