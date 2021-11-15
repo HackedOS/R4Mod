@@ -17,6 +17,10 @@ repositories {
         name 'm2-dv8tion'
         url 'https://m2.dv8tion.net/releases'
     }
+    maven {
+        url 'https://masa.dy.fi/maven'
+    }
+
 }
 
 dependencies {
@@ -30,6 +34,7 @@ dependencies {
 
     // PSA: Some older mods, compiled on Loom 0.2.1, might have outdated Maven POMs.
     // You may need to force-disable transitiveness on them.
+    modImplementation "carpet:fabric-carpet:${project.minecraft_version}-${project.carpet_core_version}"
     implementation("net.dv8tion:JDA:4.3.0_340")
 
     include 'net.dv8tion:JDA:4.3.0_340'
