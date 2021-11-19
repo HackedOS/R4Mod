@@ -75,10 +75,10 @@ public class R4Mod implements DedicatedServerModInitializer {
                                     "chatChannelID": "123456789012345678",
                                     "consoleChannelID": "123456789012345678",
                                     "commandsAccessRoleID": "123456789012345678",
-                                    "serverStartingPrompt": "Server starting",
-                                    "serverStartedPrompt": "Server started",
-                                    "serverStoppingPrompt": "Server stopping",
-                                    "serverStoppedPrompt": "Server stopped",
+                                    "serverStartingPrompt": "**Server starting**",
+                                    "serverStartedPrompt": "**Server started**",
+                                    "serverStoppingPrompt": "**Server stopping**",
+                                    "serverStoppedPrompt": "**Server stopped**"
                                 }
                                         """;
                 Files.writeString(configPath, contents);
