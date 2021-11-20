@@ -1,14 +1,22 @@
 package xyz.hackos.r4tech.r4mod.mixins;
 
+import net.minecraft.advancement.Advancement;
+import net.minecraft.advancement.PlayerAdvancementTracker;
 import net.minecraft.network.ClientConnection;
 import net.minecraft.server.PlayerManager;
 import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.text.Text;
+import net.minecraft.text.TranslatableText;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import xyz.hackos.r4tech.r4mod.discord.DiscordChatBridge;
+
+import java.util.Objects;
 
 public class PlayerEventsMixins {
     @Mixin(PlayerManager.class)
@@ -24,12 +32,23 @@ public class PlayerEventsMixins {
         }
     }
 
-
     @Mixin(PlayerManager.class)
     public static class PlayerLeft {
         @Inject(method = "remove", at = @At("RETURN"))
         private void onPlayerLeft(ServerPlayerEntity player, CallbackInfo ci) {
             DiscordChatBridge.sendMessage(":arrow_left: **" + player.getName().getString().replace("_", "\\_") + " left the game!**");
+        }
+    }
+
+    @Mixin(PlayerAdvancementTracker.class)
+    public static class PlayerAdvancement {
+        @Shadow
+        private ServerPlayerEntity owner;
+
+        @Inject(method = "grantCriterion", at = @At(value = "INVOKE", target = "Lnet/minecraft/server/PlayerManager;broadcastChatMessage(Lnet/minecraft/text/Text;Lnet/minecraft/network/MessageType;Ljava/util/UUID;)V"))
+        private void onAdvancement(Advancement advancement, String criterionName, CallbackInfoReturnable<Boolean> cir) {
+            Text text = new TranslatableText("chat.type.advancement." + Objects.requireNonNull(advancement.getDisplay()).getFrame().getId(), owner.getDisplayName(), advancement.toHoverableText());
+            DiscordChatBridge.sendMessage(":confetti_ball: **" + text.getString().replace("_", "\\_") + "**");
         }
     }
 }

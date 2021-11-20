@@ -105,17 +105,5 @@ public class R4Mod implements DedicatedServerModInitializer {
         ServerLifecycleEvents.SERVER_STOPPING.register(new GetServerStoppingEvent());
         ServerLifecycleEvents.SERVER_STOPPED.register(new GetServerStoppedEvent());
 
-//        ServerTickEvents.START_SERVER_TICK.register(server1 -> {
-//            try {
-//                List<ServerPlayerEntity> players = server1.getPlayerManager().getPlayerList();
-//                for (ServerPlayerEntity player : players) {
-//                    System.out.println(player.getName().getString() + " -> " + player.getClass());
-//                    if(player.getClass() != ServerPlayerEntity.class){
-//                        System.out.println(player.getName().getString() + " -> Carpet Player");
-//                    }
-//                }
-//            } catch (NullPointerException e){ }
-//
-//        });
     }
 }

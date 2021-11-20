@@ -6,6 +6,7 @@
   "mixins": [
     "ChatEventMixin",
     "GetServerMixin",
+    "PlayerEventsMixins$PlayerAdvancement",
     "PlayerEventsMixins$PlayerJoined",
     "PlayerEventsMixins$PlayerLeft"
   ],
