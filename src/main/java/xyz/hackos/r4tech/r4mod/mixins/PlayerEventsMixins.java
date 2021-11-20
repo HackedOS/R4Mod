@@ -2,6 +2,8 @@ package xyz.hackos.r4tech.r4mod.mixins;
 
 import net.minecraft.advancement.Advancement;
 import net.minecraft.advancement.PlayerAdvancementTracker;
+import net.minecraft.entity.damage.DamageSource;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.network.ClientConnection;
 import net.minecraft.server.PlayerManager;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -37,6 +39,15 @@ public class PlayerEventsMixins {
         @Inject(method = "remove", at = @At("RETURN"))
         private void onPlayerLeft(ServerPlayerEntity player, CallbackInfo ci) {
             DiscordChatBridge.sendMessage(":arrow_left: **" + player.getName().getString().replace("_", "\\_") + " left the game!**");
+        }
+    }
+
+    @Mixin({PlayerEntity.class, ServerPlayerEntity.class})
+    public static class PlayerDied {
+        @Inject(method = "onDeath", at = @At("HEAD"))
+        private void onPlayerDied(DamageSource source, CallbackInfo ci) {
+            DiscordChatBridge.sendMessage(":skull_crossbones: **" + ((ServerPlayerEntity) (Object) this).getDamageTracker().getDeathMessage().getString().replace("_", "\\_") + "**");
+
         }
     }
 
