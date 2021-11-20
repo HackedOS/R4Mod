@@ -1,5 +1,6 @@
 package xyz.hackos.r4tech.r4mod.discord;
 
+import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.events.ReadyEvent;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
@@ -9,6 +10,9 @@ import net.minecraft.text.Text;
 import org.jetbrains.annotations.NotNull;
 import xyz.hackos.r4tech.r4mod.R4Mod;
 import javax.annotation.Nonnull;
+import java.util.List;
+import java.util.Objects;
+
 import static xyz.hackos.r4tech.r4mod.R4Mod.config;
 
 public class DiscordListener extends ListenerAdapter {
@@ -62,6 +66,12 @@ public class DiscordListener extends ListenerAdapter {
             return;
         }
 
-        if (event.getChannel().getId().equals(config.getChatChannelID())) R4Mod.server.getPlayerManager().broadcastChatMessage(Text.of("[" + event.getMember().getUser().getName() + "] " + content), MessageType.CHAT, R4Mod.senderUUID);
+        if (event.getChannel().getId().equals(config.getChatChannelID())){
+            List<Member> mentionedMembers = event.getMessage().getMentionedMembers();
+            for (Member m : mentionedMembers) {
+                content = content.replaceAll(String.format("<@!?%s>", m.getId()), m.getNickname() != null ? String.format("@%s", m.getNickname()) :  String.format("@%s", m.getUser().getName()));
+            }
+            R4Mod.server.getPlayerManager().broadcastChatMessage(Text.of("[" + Objects.requireNonNull(event.getMember()).getUser().getName() + "] " + content), MessageType.CHAT, R4Mod.senderUUID);
+        }
     }
 }
