@@ -1,6 +1,7 @@
 package xyz.hackos.r4tech.r4mod.discord;
 
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
+import net.minecraft.command.CommandRegistryAccess;
 import net.minecraft.server.command.CommandManager;
 import xyz.hackos.r4tech.r4mod.R4Mod;
 import java.util.Objects;
@@ -44,15 +45,9 @@ public class DiscordChatBridge {
             event.getChannel().sendMessage("Sorry <@" + event.getMember().getId() + "> you don't have access to the console.").queue();
             return;
         }
-
-        if (!event.getChannel().equals(event.getGuild().getTextChannelById(config.getConsoleChannelID()))) {
-            event.getChannel().sendMessage("Sorry <@" + event.getMember().getId() + "> this is not the console channel").queue();
-            return;
-        }
-        CommandManager command = new CommandManager(CommandManager.RegistrationEnvironment.DEDICATED);
         try {
             //Attempt to send command
-            command.execute(R4Mod.server.getCommandSource(), content);
+            R4Mod.server.getCommandManager().execute(R4Mod.server.getCommandManager().getDispatcher().parse(content, R4Mod.server.getCommandSource()), content);
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -2,7 +2,7 @@
   "required": true,
   "minVersion": "0.8",
   "package": "xyz.hackos.r4tech.r4mod.mixins",
-  "compatibilityLevel": "JAVA_16",
+  "compatibilityLevel": "JAVA_17",
   "mixins": [
     "ChatEventMixin",
     "GetServerMixin",

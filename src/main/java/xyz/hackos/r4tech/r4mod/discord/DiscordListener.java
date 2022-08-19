@@ -5,7 +5,7 @@ import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.events.ReadyEvent;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
-import net.minecraft.network.MessageType;
+import net.minecraft.network.message.MessageType;
 import net.minecraft.text.Text;
 import org.jetbrains.annotations.NotNull;
 import xyz.hackos.r4tech.r4mod.R4Mod;
@@ -62,6 +62,9 @@ public class DiscordListener extends ListenerAdapter {
             return;
         }
         if(content.startsWith("/")){
+            if (!event.getChannel().equals(event.getGuild().getTextChannelById(config.getConsoleChannelID()))) {
+                return;
+            }
             DiscordChatBridge.consoleCommand(content,event);
             return;
         }
@@ -71,7 +74,7 @@ public class DiscordListener extends ListenerAdapter {
             for (Member m : mentionedMembers) {
                 content = content.replaceAll(String.format("<@!?%s>", m.getId()), m.getNickname() != null ? String.format("@%s", m.getNickname()) :  String.format("@%s", m.getUser().getName()));
             }
-            R4Mod.server.getPlayerManager().broadcastChatMessage(Text.of("[" + Objects.requireNonNull(event.getMember()).getUser().getName() + "] " + content), MessageType.CHAT, R4Mod.senderUUID);
+            R4Mod.server.getPlayerManager().broadcast(Text.of("[" + Objects.requireNonNull(event.getMember()).getUser().getName() + "] " + content),false);
         }
     }
 }

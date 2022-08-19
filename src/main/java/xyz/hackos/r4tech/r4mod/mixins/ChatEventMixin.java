@@ -14,8 +14,8 @@ import xyz.hackos.r4tech.r4mod.discord.DiscordChatBridge;
 public class ChatEventMixin {
     @Shadow public ServerPlayerEntity player;
 
-    @Inject(method = "onGameMessage", at = @At("RETURN"))
+    @Inject(method = "onChatMessage", at = @At("RETURN"))
     private void onChatMessage(ChatMessageC2SPacket packet, CallbackInfo ci) {
-        if (!packet.getChatMessage().startsWith("/")) DiscordChatBridge.sendMessage("`<" + player.getName().getString() + ">` " + packet.getChatMessage());
+        if (!packet.chatMessage().startsWith("/")) DiscordChatBridge.sendMessage("`<" + player.getName().getString() + ">` " + packet.chatMessage());
     }
 }

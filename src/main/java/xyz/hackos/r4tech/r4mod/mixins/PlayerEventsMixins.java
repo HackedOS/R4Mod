@@ -8,12 +8,13 @@ import net.minecraft.network.ClientConnection;
 import net.minecraft.server.PlayerManager;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
+import net.minecraft.text.TranslatableTextContent;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
+import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import xyz.hackos.r4tech.r4mod.discord.DiscordChatBridge;
@@ -28,8 +29,8 @@ public class PlayerEventsMixins {
             DiscordChatBridge.sendMessage(":arrow_right: **" + player.getName().getString().replace("_", "\\_") + " joined the game!**");
         }
 
-        @ModifyArg(method = "onPlayerConnect", at = @At(value = "INVOKE",target = "Lorg/apache/logging/log4j/Logger;info(Ljava/lang/String;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)V"), index = 2)
-        private Object onPlayerJoinedRemoveIP(Object ip) {
+        @Redirect(method = "onPlayerConnect", at = @At(value = "INVOKE",target = "Ljava/lang/Object;toString()Ljava/lang/String;"))
+        private String onPlayerJoinedRemoveIP(Object ip) {
             return "IP MASKED";
         }
     }
@@ -56,9 +57,10 @@ public class PlayerEventsMixins {
         @Shadow
         private ServerPlayerEntity owner;
 
-        @Inject(method = "grantCriterion", at = @At(value = "INVOKE", target = "Lnet/minecraft/server/PlayerManager;broadcastChatMessage(Lnet/minecraft/text/Text;Lnet/minecraft/network/MessageType;Ljava/util/UUID;)V"))
+        @Inject(method = "grantCriterion", at = @At(value = "RETURN"))
         private void onAdvancement(Advancement advancement, String criterionName, CallbackInfoReturnable<Boolean> cir) {
-            Text text = new TranslatableText("chat.type.advancement." + Objects.requireNonNull(advancement.getDisplay()).getFrame().getId(), owner.getDisplayName(), advancement.toHoverableText());
+            Text text = Text.translatable("chat.type.advancement." + advancement.getDisplay().getFrame().getId(), this.owner.getDisplayName(), advancement.toHoverableText());
+
             DiscordChatBridge.sendMessage(":confetti_ball: **" + text.getString().replace("_", "\\_") + "**");
         }
     }
