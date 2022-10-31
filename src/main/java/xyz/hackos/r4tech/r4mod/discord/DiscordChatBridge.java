@@ -1,8 +1,6 @@
 package xyz.hackos.r4tech.r4mod.discord;
 
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
-import net.minecraft.command.CommandRegistryAccess;
-import net.minecraft.server.command.CommandManager;
 import xyz.hackos.r4tech.r4mod.R4Mod;
 import java.util.Objects;
 import static xyz.hackos.r4tech.r4mod.R4Mod.api;
@@ -16,17 +14,12 @@ public class DiscordChatBridge {
     //For sending messages to Discord and Minecraft
     public static void sendMessage(String message) {
         if (R4Mod.jdaReady) {
-            Objects.requireNonNull(api.getTextChannelById(config.getChatChannelID())).sendMessage(message).queue();
-        }
-    }
-    public static void sendConsoleMessage(String message) {
-        if (R4Mod.jdaReady) {
-            Objects.requireNonNull(api.getTextChannelById(config.getConsoleChannelID())).sendMessage(message).queue();
+            Objects.requireNonNull(api.getTextChannelById(config.chatChannelID())).sendMessage(message).queue();
         }
     }
 
     public static void discordCommand(String commandW, MessageReceivedEvent event) {
-        if (!event.getChannel().getId().equals(config.getChatChannelID())){
+        if (!event.getChannel().getId().equals(config.chatChannelID())){
             event.getChannel().sendMessage("Sorry <@" + event.getMember().getId() + "> this is not the chat channel").queue();
             return;
         }
@@ -36,22 +29,6 @@ public class DiscordChatBridge {
             case "bots" -> BotsCommand(event);
             case "tps" -> tpsCommand(event);
         }
-
-    }
-
-    public static void consoleCommand(String content,MessageReceivedEvent event){
-
-        if (!Objects.requireNonNull(event.getMember()).getRoles().contains(event.getGuild().getRoleById(config.getCommandsAccessRoleID()))) {
-            event.getChannel().sendMessage("Sorry <@" + event.getMember().getId() + "> you don't have access to the console.").queue();
-            return;
-        }
-        try {
-            //Attempt to send command
-            R4Mod.server.getCommandManager().execute(R4Mod.server.getCommandManager().getDispatcher().parse(content, R4Mod.server.getCommandSource()), content);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
 
     }
 }

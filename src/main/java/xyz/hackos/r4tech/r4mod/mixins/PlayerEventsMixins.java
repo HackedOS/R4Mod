@@ -12,7 +12,6 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import xyz.hackos.r4tech.r4mod.discord.DiscordChatBridge;
@@ -23,11 +22,6 @@ public class PlayerEventsMixins {
         @Inject(method = "onPlayerConnect", at = @At("RETURN"))
         private void onPlayerJoined(ClientConnection connection, ServerPlayerEntity player, CallbackInfo ci) {
             DiscordChatBridge.sendMessage(":arrow_right: **" + player.getName().getString().replace("_", "\\_") + " joined the game!**");
-        }
-
-        @Redirect(method = "onPlayerConnect", at = @At(value = "INVOKE",target = "Ljava/lang/Object;toString()Ljava/lang/String;"))
-        private String onPlayerJoinedRemoveIP(Object ip) {
-            return "IP MASKED";
         }
     }
 
