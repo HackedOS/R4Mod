@@ -1,7 +1,7 @@
 package xyz.hackos.r4tech.r4mod.discord.commands;
 
 import net.dv8tion.jda.api.EmbedBuilder;
-import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
+import net.dv8tion.jda.api.events.interaction.SlashCommandEvent;
 import net.minecraft.server.network.ServerPlayerEntity;
 import xyz.hackos.r4tech.r4mod.R4Mod;
 
@@ -9,7 +9,7 @@ import java.awt.*;
 import java.util.Objects;
 
 public class BotsDiscordCommand {
-    public static void BotsCommand(MessageReceivedEvent event){
+    public static void BotsCommand(SlashCommandEvent event){
         StringBuilder msg = new StringBuilder();
         int n = 0;
         for (ServerPlayerEntity player : R4Mod.server.getPlayerManager().getPlayerList()) {
@@ -27,7 +27,7 @@ public class BotsDiscordCommand {
             } else {
                 emb.setDescription(n == 0 ? "**No bots online :(**" : "**" + n + " bot connected** \n\n" + msg);
             }
-            event.getChannel().sendMessageEmbeds(Objects.requireNonNull(emb).build()).queue();
+            event.getHook().sendMessageEmbeds(Objects.requireNonNull(emb).build()).queue();
         } catch (Exception ex) {
             ex.printStackTrace();
         }

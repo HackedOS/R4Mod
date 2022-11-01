@@ -81,6 +81,10 @@ public class R4Mod implements DedicatedServerModInitializer {
         updateConfigs();
         try {
             api = JDABuilder.createDefault(config.botToken()).addEventListeners(new DiscordListener()).build();
+            api.upsertCommand("online", "shows the online players").queue();
+            api.upsertCommand("bots", "shows the online bots").queue();
+            api.upsertCommand("tps", "shows the tps of server").queue();
+
         } catch (LoginException e) {
             e.printStackTrace();
         }

@@ -1,17 +1,16 @@
 package xyz.hackos.r4tech.r4mod.discord.commands;
 
 import net.dv8tion.jda.api.EmbedBuilder;
-import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
+import net.dv8tion.jda.api.events.interaction.SlashCommandEvent;
 import net.minecraft.server.network.ServerPlayerEntity;
 import xyz.hackos.r4tech.r4mod.R4Mod;
-import xyz.hackos.r4tech.r4mod.discord.DiscordChatBridge;
 
 import java.awt.*;
 import java.util.Objects;
 
 public class OnlineDiscordCommand {
 
-    public static void OnlineCommand(MessageReceivedEvent event) {
+    public static void OnlineCommand(SlashCommandEvent event) {
         StringBuilder msg = new StringBuilder();
         int n = 0;
         for (ServerPlayerEntity player : R4Mod.server.getPlayerManager().getPlayerList()) {
@@ -28,7 +27,7 @@ public class OnlineDiscordCommand {
             } else {
                 emb.setDescription(n == 0 ? "**No players online :(**" : "**" + n + " player connected** \n\n" + msg);
             }
-            event.getChannel().sendMessageEmbeds(Objects.requireNonNull(emb).build()).queue();
+            event.getHook().sendMessageEmbeds(Objects.requireNonNull(emb).build()).queue();
         } catch (Exception ex) {
             ex.printStackTrace();
         }

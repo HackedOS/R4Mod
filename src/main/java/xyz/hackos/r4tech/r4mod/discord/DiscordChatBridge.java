@@ -1,6 +1,6 @@
 package xyz.hackos.r4tech.r4mod.discord;
 
-import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
+import net.dv8tion.jda.api.events.interaction.SlashCommandEvent;
 import xyz.hackos.r4tech.r4mod.R4Mod;
 import java.util.Objects;
 import static xyz.hackos.r4tech.r4mod.R4Mod.api;
@@ -18,12 +18,8 @@ public class DiscordChatBridge {
         }
     }
 
-    public static void discordCommand(String commandW, MessageReceivedEvent event) {
-        if (!event.getChannel().getId().equals(config.chatChannelID())){
-            event.getChannel().sendMessage("Sorry <@" + event.getMember().getId() + "> this is not the chat channel").queue();
-            return;
-        }
-        String command = commandW.split("!")[1];
+    public static void discordCommand(String command, SlashCommandEvent event) {
+        event.deferReply().queue();
         switch (command) {
             case "online" -> OnlineCommand(event);
             case "bots" -> BotsCommand(event);
